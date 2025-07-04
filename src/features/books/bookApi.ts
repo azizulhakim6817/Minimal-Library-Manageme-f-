@@ -48,6 +48,7 @@ export const bookApi = createApi({
     }),
     getBookById: builder.query<Book, string>({
       query: (id) => `books/${id}`,
+      providesTags: ["Books"],
     }),
   }),
 });

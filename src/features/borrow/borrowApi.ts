@@ -22,6 +22,7 @@ export const borrowApi = createApi({
         url: `borrow`,
         method: "POST",
         body: { book, quantity, dueDate },
+        invalidatesTags: ["Borrow"],
       }),
     }),
 
