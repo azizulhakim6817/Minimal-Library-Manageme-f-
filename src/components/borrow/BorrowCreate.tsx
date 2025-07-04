@@ -8,7 +8,7 @@ export default function BorrowCreate() {
 
   const navigate = useNavigate();
 
-  const [borrowBook, { isLoading, error }] = useBorrowBookMutation();
+  const [borrowBook, { isLoading }] = useBorrowBookMutation();
 
   const [formData, setFormData] = useState({
     quantity: 1,
@@ -62,8 +62,6 @@ export default function BorrowCreate() {
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 border rounded-lg shadow-2xl">
       <h1 className="text-2xl font-semibold mb-6">📚 Borrow Book</h1>
-
-      {error && <p className="text-red-500">❌ Failed to borrow book</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
