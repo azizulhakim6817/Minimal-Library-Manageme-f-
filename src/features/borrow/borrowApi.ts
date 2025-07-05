@@ -11,7 +11,9 @@ export interface Borrow {
 
 export const borrowApi = createApi({
   reducerPath: "borrowApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://library-management-api-ashen.vercel.app/api/",
+  }),
   tagTypes: ["Books", "Borrow"],
   endpoints: (builder) => ({
     borrowBook: builder.mutation<
