@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -13,57 +14,116 @@ export default function Navbar() {
   }, [isDark]);
 
   return (
-    <nav className="px-6 py-4 shadow-lg flex items-center justify-between border-b border-gray-200 dark:border-gray-600">
-      <NavLink
-        to="/books"
-        className={({ isActive }) =>
-          isActive
-            ? "font-bold text-3xl"
-            : "hover:underline hover:font-medium font-semibold text-3xl"
-        }
-      >
-        📚 LIBRARY
-      </NavLink>
-
-      <div className="space-x-4">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow border-b border-gray-200 dark:border-gray-700">
+      <nav className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+        {/* Brand */}
         <NavLink
           to="/books"
-          className={({ isActive }) =>
-            isActive
-              ? "font-bold text-blue-600"
-              : "hover:underline hover:font-medium font-semibold"
-          }
+          className="text-2xl md:text-3xl font-extrabold tracking-tight hover:opacity-90 transition"
         >
-          ALL BOOKS
+          📚 LIBRARY
         </NavLink>
-        <NavLink
-          to="/create-book"
-          className={({ isActive }) =>
-            isActive
-              ? "font-bold text-blue-600"
-              : "hover:underline hover:font-medium font-semibold"
-          }
-        >
-          ADD BOOKS
-        </NavLink>
-        <NavLink
-          to="/borrow-summary"
-          className={({ isActive }) =>
-            isActive
-              ? "font-bold text-blue-600"
-              : "hover:underline hover:font-medium font-semibold"
-          }
-        >
-          BORROW SUMMARY
-        </NavLink>
-      </div>
 
-      <button
-        onClick={() => setIsDark(!isDark)}
-        className="ml-4 px-3 py-1 rounded border border-gray-300 dark:border-gray-500"
-      >
-        {isDark ? "🌙 Dark" : "☀️ Light"}
-      </button>
-    </nav>
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-6">
+          <NavLink
+            to="/books"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            ALL BOOKS
+          </NavLink>
+          <NavLink
+            to="/create-book"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            ADD BOOKS
+          </NavLink>
+          <NavLink
+            to="/borrow-summary"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            BORROW SUMMARY
+          </NavLink>
+
+          <button
+            onClick={() => setIsDark(!isDark)}
+            className="ml-4 px-3 py-1 border rounded border-gray-300 dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          >
+            {isDark ? "🌙 Dark" : "☀️ Light"}
+          </button>
+        </div>
+
+        {/* Mobile Hamburger */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-2xl focus:outline-none"
+          >
+            {isOpen ? "✖️" : "☰"}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Links */}
+      {isOpen && (
+        <div className="md:hidden bg-white dark:bg-gray-900 shadow border-t border-gray-200 dark:border-gray-700 flex flex-col items-center gap-4 py-4 transition">
+          <NavLink
+            to="/books"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            ALL BOOKS
+          </NavLink>
+          <NavLink
+            to="/create-book"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            ADD BOOKS
+          </NavLink>
+          <NavLink
+            to="/borrow-summary"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 font-bold"
+                : "text-gray-700 dark:text-gray-200 hover:text-blue-600 transition"
+            }
+          >
+            BORROW SUMMARY
+          </NavLink>
+
+          <button
+            onClick={() => {
+              setIsDark(!isDark);
+              setIsOpen(false);
+            }}
+            className="px-3 py-1 border rounded border-gray-300 dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          >
+            {isDark ? "🌙 Dark" : "☀️ Light"}
+          </button>
+        </div>
+      )}
+    </header>
   );
 }
