@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   useDeleteBookMutation,
@@ -9,8 +10,29 @@ import { MdDelete } from "react-icons/md";
 export default function BooksList() {
   const { data: books, isLoading, isError, error } = useGetBooksQuery();
   const [deleteBook] = useDeleteBookMutation();
+  const [showModal, setShowModal] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<string | null>(null);
 
   const bookList = Array.isArray(books?.data) ? books.data : [];
+
+  // Open confirmation modal
+  const handleDeleteClick = (bookId: string) => {
+    setBookToDelete(bookId);
+    setShowModal(true);
+  };
+
+  // Confirm delete
+  const handleConfirmDelete = () => {
+    if (bookToDelete) {
+      deleteBook(bookToDelete);
+      setShowModal(false); // Close the modal
+    }
+  };
+
+  // Cancel delete
+  const handleCancelDelete = () => {
+    setShowModal(false); // Close the modal
+  };
 
   return (
     <div className="p-4 md:p-8">
@@ -69,7 +91,7 @@ export default function BooksList() {
                         <FaEdit className="w-4 h-4" />
                       </Link>
                       <button
-                        onClick={() => deleteBook(book._id)}
+                        onClick={() => handleDeleteClick(book._id)}
                         className="inline-flex items-center gap-1 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
                       >
                         <MdDelete className="w-4 h-4" />
@@ -99,6 +121,32 @@ export default function BooksList() {
             No books found.
           </p>
         )
+      )}
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 sm:w-96">
+            <h3 className="text-center text-xl font-semibold">Delete Book</h3>
+            <p className="text-center my-4">
+              Are you sure you want to delete this book?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={handleCancelDelete}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
