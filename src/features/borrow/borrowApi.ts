@@ -14,7 +14,7 @@ export const borrowApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://library-management-api-ashen.vercel.app/api/",
   }),
-  tagTypes: ["Books", "Borrow"],
+  tagTypes: ["Borrow"],
   endpoints: (builder) => ({
     borrowBook: builder.mutation<
       void,
@@ -24,8 +24,8 @@ export const borrowApi = createApi({
         url: `borrow`,
         method: "POST",
         body: { book, quantity, dueDate },
-        invalidatesTags: ["Borrow"],
       }),
+      invalidatesTags: ["Borrow"],
     }),
 
     getBorrowSummary: builder.query<Borrow[], void>({

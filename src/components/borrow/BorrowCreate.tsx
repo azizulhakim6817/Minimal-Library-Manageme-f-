@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBorrowBookMutation } from "../../features/borrow/borrowApi";
-import { useGetBooksQuery } from "../../features/books/bookApi"; // <-- Import to trigger refetch
 import { toast } from "react-toastify";
 
 export default function BorrowCreate() {
   const { id } = useParams<{ id: string }>(); // 📌 Book ID from URL
+
   const navigate = useNavigate();
-  const { refetch } = useGetBooksQuery(); // <-- Used for refetching book data after borrow
+
   const [borrowBook, { isLoading }] = useBorrowBookMutation();
 
   // ✅ Form state
@@ -51,15 +51,11 @@ export default function BorrowCreate() {
     });
 
     try {
-      // Borrow the book
       await borrowBook({
         book: id,
         quantity: formData.quantity,
         dueDate: new Date(formData.dueDate).toISOString(),
       }).unwrap();
-
-      // Re-fetch the book list to get updated data (copies, availability)
-      refetch();
 
       toast.success("✅ Borrow added successfully!");
       navigate("/borrow-summary");
