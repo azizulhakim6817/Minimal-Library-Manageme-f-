@@ -1,14 +1,9 @@
 import { useGetBorrowSummaryQuery } from "../../features/borrow/borrowApi";
 
 export default function BorrowSummary() {
-  const {
-    data, 
-    isLoading,
-    isError,
-    error,
-  } = useGetBorrowSummaryQuery();
+  const { data, isLoading, isError, error } = useGetBorrowSummaryQuery();
 
-  const borrows = data?.data; 
+  const borrows = data;
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 border rounded-lg shadow-2xl">
