@@ -94,16 +94,6 @@ Displays a list of borrowed books with the total quantity borrowed for each book
 
 ---
 
-## Bonus Features (Optional)
-
-| Feature               | Bonus Points |
-| --------------------- | ------------ |
-| Optimistic UI Updates | +2           |
-| Toast Notifications   | +2           |
-| Responsive Layout     | +4           |
-| Type-Safe Forms       | +2           |
-
----
 
 ## Backend Requirements (Modular/MVC Pattern)
 
